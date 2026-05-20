@@ -1,0 +1,124 @@
+# Cursor usage helpers (Windows)
+
+> 🇬🇧 **English version:** [README.md](./README.md)
+
+Drobné **neoficiální** nástroje, které ukazují **Total (Included in Pro)**, **Auto + Composer** a **API (named)** spotřebu plánu Cursor — stejná data, která ukazuje [cursor.com/dashboard/usage](https://cursor.com/dashboard/usage). Pod kapotou se volá `GET https://cursor.com/api/usage-summary` s cookie `WorkosCursorSessionToken`.
+
+| Nástroj | Co dělá |
+|---------|---------|
+| **[`cursor-usage-status/`](./cursor-usage-status/)** | **Rozšíření** do Cursoru / VS Code — živý **stavový řádek** `Total % · Auto % · API %` (doporučeno) |
+| **[`cursor-usage.ps1`](./cursor-usage.ps1)** | **PowerShell** skript do terminálu s volitelným režimem sledování a Windows notifikacemi |
+
+Inspirováno projektem [cursor-usage-menubar](https://github.com/vokal-pe/cursor-usage-menubar) (macOS menu bar). Tenhle repozitář cílí na **Windows** a **viditelnost přímo v editoru**.
+
+> **Upozornění:** Endpoint není dokumentované veřejné API Cursoru; může se kdykoliv změnit. **Nikdy necommituj ani nesdílej svůj session token.** Projekt není napojený na Cursor.
+
+![Stavový řádek s Total, Auto a API využitím a detailem v tooltipu](./docs/status-bar-preview.png)
+
+*Položka ve status baru (dole) a tooltip — **Total** odpovídá *Included in Pro* v nastavení Cursoru; Auto + Composer a API jsou rozpad poolů.*
+
+---
+
+## Rozšíření do status baru (uvnitř Cursoru)
+
+Kolečko **„context used“** v hlavičce agenta **rozšíření nemůžou** přepsat ani vedle něj přidat vlastní widget — to je vestavěné UI Cursoru. **Status bar** dole je oficiálně podporované místo, kde můžeš mít limity pořád na očích.
+
+### Instalace
+
+**Možnost A — VSIX (doporučeno, nejjednodušší):**
+
+1. Stáhni si nejnovější **`cursor-usage-status-*.vsix`** ze záložky [GitHub Releases](../../releases).
+2. V Cursoru: otevři panel **Extensions** → klikni na `…` (vpravo nahoře) → **Install from VSIX…** → vyber stažený soubor.
+3. **Developer: Reload Window** pokud je potřeba.
+
+**Možnost B — Ze zdrojáků (pro vývoj / F5 ladění):**
+
+- Otevři složku [`cursor-usage-status/`](./cursor-usage-status/) v Cursoru a stiskni **F5** — otevře se nové okno *Extension Development Host* s rozšířením.
+
+**Možnost C — Kopírovat ručně:**
+
+- Zkopíruj `extension.js` + `package.json` (volitelně `README.md`) do složky rozšíření:  
+  `%USERPROFILE%\.cursor\extensions\lukasvladyka.cursor-usage-status-0.1.1`  
+  Název složky **musí** odpovídat `publisher.název-verze` v `package.json`. Pak restartuj Cursor nebo dej **Developer: Reload Window**.
+
+### Nastavení session tokenu (Command Palette) — typický první krok
+
+1. V prohlížeči se přihlas na [cursor.com](https://cursor.com), otevři DevTools → **Application** → **Cookies** → doména cursor.com → zkopíruj hodnotu cookie **`WorkosCursorSessionToken`** (dlouhý řetězec, chovej se k němu jako k heslu).
+2. V Cursoru stiskni **Ctrl+Shift+P** (Command Palette).
+3. Napiš **`Cursor usage: Set session token`** a vyber příkaz **„Cursor usage: Set session token…“**.
+4. Objeví se **úzké pole nahoře** (maskované jako heslo). **Vlož jen hodnotu cookie** a potvrď Enterem.
+
+> **Častá chyba:** místo pole se zobrazí **seznam souborů z projektu** (např. `cursor-usage.ps1`). To znamená, že jsi otevřel rychlé otevírání souborů, ne příkaz — zavři to, znovu **Ctrl+Shift+P** a vyber příkaz přímo z palety.
+
+**Alternativy nastavení tokenu**
+
+- **User Settings:** najdi `cursorUsageStatus.sessionToken` a vlož hodnotu (User scope — nikdy workspace).
+- **Proměnná prostředí:** `CURSOR_SESSION_TOKEN` nastavit před spuštěním Cursoru.
+
+Po nastavení tokenu uvidíš ve status baru např. `Total 6% · Auto 4% · API 13%`. Kliknutím obnovíš ručně; po najetí myší se zobrazí detail (konec billing cyklu + odkaz na dashboard).
+
+### Nastavení rozšíření
+
+| Klíč | Výchozí | Význam |
+|------|---------|--------|
+| `cursorUsageStatus.sessionToken` | prázdné | Hodnota session cookie (User settings). |
+| `cursorUsageStatus.refreshIntervalMinutes` | `5` | Interval obnovení v minutách (1–120). |
+
+### Příkazy (Command Palette)
+
+| Příkaz | Účel |
+|--------|------|
+| `Cursor usage: Refresh now` | Okamžité obnovení (stejné jako klik na položku ve status baru). |
+| `Cursor usage: Set session token…` | Bezpečné vložení tokenu (maskovaný input). |
+| `Cursor usage: Open dashboard` | Otevře [cursor.com/dashboard/usage](https://cursor.com/dashboard/usage). |
+
+---
+
+## PowerShell skript
+
+Stejné API. Token bere v tomto pořadí:
+
+1. parametr `-SessionToken`  
+2. proměnná prostředí **`CURSOR_SESSION_TOKEN`** (process scope)  
+3. soubor **`%USERPROFILE%\.cursor-usage\config.json`** s `{ "session_token": "..." }`
+
+```powershell
+cd cesta\k\Cursor_usage
+.\cursor-usage.ps1                                  # jeden výpis
+.\cursor-usage.ps1 -Watch                           # každých 5 min
+.\cursor-usage.ps1 -Watch -IntervalSeconds 600 -NotifyAtPercent 0
+```
+
+Skript a rozšíření **nesdílí** úložiště tokenu — skript čte env / `.cursor-usage/config.json`, rozšíření čte VS Code settings. Stejná hodnota cookie, dvě různá místa.
+
+Citlivé soubory zůstávají v `.gitignore` (`.cursor-usage/`, `*.local.json`, `.env*`).
+
+---
+
+## Získání `WorkosCursorSessionToken` z prohlížeče
+
+1. Přihlas se na https://cursor.com v **Chrome / Edge / Firefox**.  
+2. **F12** → **Application** (Aplikace) nebo **Storage** (Úložiště) → **Cookies** → `https://cursor.com`.  
+3. Najdi řádek **`WorkosCursorSessionToken`** → zkopíruj **Value**.
+
+Hodnotu **nikdy nevkládej** do issues, chatu ani commitu.
+
+---
+
+## Omezení & poznámky
+
+- Billing je **měsíční**, dva pooly (Auto + Composer vs API). Z tohoto API **nedostaneš** denní/týdenní slidery jako u Claude Code.
+- Při **HTTP 401/403** se rozšíření zbarví červeně — obnov si cookie v prohlížeči a znovu ulož přes *Set session token*.
+- Endpoint je neoficiální; když Cursor změní strukturu odpovědi, bude potřeba parser upravit.
+
+---
+
+## Autor
+
+**Lukáš Vladyka**  
+- Email: [vladykosss@gmail.com](mailto:vladykosss@gmail.com)  
+- LinkedIn: [linkedin.com/in/lukáš-vladyka](https://www.linkedin.com/in/luk%C3%A1%C5%A1-vladyka/)
+
+## Licence
+
+[MIT](./LICENSE)

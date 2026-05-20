@@ -1,0 +1,22 @@
+# --- Session / secrets (never commit) ---
+.cursor-usage/
+*.local.json
+.env
+.env.*
+**/config.json
+
+# --- SpecStory (local chat history, paths, conversation) ---
+.specstory/
+
+# --- Root IDE preferences (personal; extension debug config stays in cursor-usage-status/.vscode/) ---
+/.vscode/
+
+# --- Build / packaging ---
+*.vsix
+node_modules/
+package-lock.json
+
+# --- OS junk ---
+.DS_Store
+Thumbs.db
+Desktop.ini

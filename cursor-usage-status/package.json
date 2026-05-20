@@ -1,0 +1,70 @@
+{
+  "name": "cursor-usage-status",
+  "displayName": "Cursor plan usage (status bar)",
+  "description": "Shows Total (Included in Pro), Auto + Composer and API (named) usage % from cursor.com in the status bar.",
+  "version": "0.1.1",
+  "license": "MIT",
+  "publisher": "lukasvladyka",
+  "author": {
+    "name": "Lukáš Vladyka",
+    "email": "vladykosss@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vladykos1/cursor-usage.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vladykos1/cursor-usage/issues"
+  },
+  "homepage": "https://github.com/vladykos1/cursor-usage#readme",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "cursor",
+    "usage",
+    "status bar",
+    "monitoring",
+    "windows"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "Cursor plan usage",
+      "properties": {
+        "cursorUsageStatus.sessionToken": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "**WorkosCursorSessionToken** from [cursor.com](https://cursor.com) cookies (DevTools → Application → Cookies). Prefer **User** settings, not workspace — do not commit. You can also set env `CURSOR_SESSION_TOKEN` when launching Cursor (optional)."
+        },
+        "cursorUsageStatus.refreshIntervalMinutes": {
+          "type": "integer",
+          "default": 5,
+          "minimum": 1,
+          "maximum": 120,
+          "description": "How often to refresh usage from the API."
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "cursorUsageStatus.refresh",
+        "title": "Cursor usage: Refresh now"
+      },
+      {
+        "command": "cursorUsageStatus.setToken",
+        "title": "Cursor usage: Set session token…"
+      },
+      {
+        "command": "cursorUsageStatus.openUsageDashboard",
+        "title": "Cursor usage: Open dashboard"
+      }
+    ]
+  }
+}

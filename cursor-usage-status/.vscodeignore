@@ -1,0 +1,8 @@
+.vscode/**
+.vscode-test/**
+.gitignore
+.eslintrc*
+**/*.vsix
+**/.DS_Store
+**/Thumbs.db
+README.cs.md
