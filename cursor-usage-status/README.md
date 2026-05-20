@@ -13,7 +13,7 @@ Adds a **status bar** item to Cursor / VS Code showing **Total**, **Auto + Compo
 1. Download the latest `.vsix` from [GitHub Releases](../../../releases).
 2. In Cursor press **Ctrl+Shift+P** → type **`Extensions: Install from VSIX...`** → pick the command.
 3. Select the downloaded `.vsix`.
-4. **`Developer: Reload Window`** if needed.
+4. If the status bar item doesn't appear immediately, press **Ctrl+Shift+P** again, type **`Developer: Reload Window`**, and pick that command.
 
 **From source:** copy `extension.js` + `package.json` into:  
    `%USERPROFILE%\.cursor\extensions\lukasvladyka.cursor-usage-status-0.1.1`  

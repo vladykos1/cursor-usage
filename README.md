@@ -30,7 +30,7 @@ The built-in **“context used”** ring in the Agent UI **cannot** be replaced 
 1. Download the latest **`cursor-usage-status-*.vsix`** from the [GitHub Releases](../../releases) page.
 2. In Cursor press **Ctrl+Shift+P** (macOS: **Cmd+Shift+P**) and type **`Extensions: Install from VSIX...`** — pick that command from the palette.
 3. In the file dialog select the downloaded `.vsix`.
-4. Run **`Developer: Reload Window`** if the status bar item doesn't appear immediately.
+4. If the status bar item doesn't appear immediately, press **Ctrl+Shift+P** again, type **`Developer: Reload Window`**, and pick that command.
 
 > This avoids hunting for the `…` button in the Extensions panel header (which is hidden if the panel is narrow). The Command Palette route works reliably on any window size.
 

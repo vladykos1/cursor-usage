@@ -13,7 +13,7 @@ Přidává do **stavového řádku** Cursoru / VS Code položku s **Total**, **A
 1. Stáhni si nejnovější `.vsix` ze záložky [GitHub Releases](../../../releases).
 2. V Cursoru stiskni **Ctrl+Shift+P** → napiš **`Extensions: Install from VSIX...`** → vyber příkaz.
 3. Vyber stažený `.vsix`.
-4. Pokud je potřeba, spusť **`Developer: Reload Window`**.
+4. Pokud se položka ve status baru hned neobjeví, znovu stiskni **Ctrl+Shift+P**, napiš **`Developer: Reload Window`** a vyber tento příkaz.
 
 **Ze zdrojáků:** zkopíruj `extension.js` + `package.json` do:  
    `%USERPROFILE%\.cursor\extensions\lukasvladyka.cursor-usage-status-0.1.1`  

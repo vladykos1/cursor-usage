@@ -30,7 +30,7 @@ Kolečko **„context used“** v hlavičce agenta **rozšíření nemůžou** p
 1. Stáhni si nejnovější **`cursor-usage-status-*.vsix`** ze záložky [GitHub Releases](../../releases).
 2. V Cursoru stiskni **Ctrl+Shift+P** a napiš **`Extensions: Install from VSIX...`** — vyber tento příkaz z palety.
 3. V dialogu vyber stažený `.vsix` soubor.
-4. Pokud se položka ve status baru hned neobjeví, spusť **`Developer: Reload Window`**.
+4. Pokud se položka ve status baru hned neobjeví, znovu stiskni **Ctrl+Shift+P**, napiš **`Developer: Reload Window`** a vyber tento příkaz.
 
 > Tímhle se vyhneš hledání `…` tlačítka v hlavičce panelu Extensions (které je skryté, když je panel úzký). Command Palette funguje spolehlivě bez ohledu na šířku okna.
 
