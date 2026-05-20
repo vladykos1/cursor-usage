@@ -8,7 +8,12 @@ Přidává do **stavového řádku** Cursoru / VS Code položku s **Total**, **A
 
 ## Rychlá instalace
 
-**VSIX (doporučeno):** stáhni si nejnovější `.vsix` ze záložky [GitHub Releases](../../../releases) → v Cursoru otevři panel **Extensions** → `…` → **Install from VSIX…** → vyber stažený soubor.
+**VSIX přes Command Palette (doporučeno):**
+
+1. Stáhni si nejnovější `.vsix` ze záložky [GitHub Releases](../../../releases).
+2. V Cursoru stiskni **Ctrl+Shift+P** → napiš **`Extensions: Install from VSIX...`** → vyber příkaz.
+3. Vyber stažený `.vsix`.
+4. Pokud je potřeba, spusť **`Developer: Reload Window`**.
 
 **Ze zdrojáků:** zkopíruj `extension.js` + `package.json` do:  
    `%USERPROFILE%\.cursor\extensions\lukasvladyka.cursor-usage-status-0.1.1`  

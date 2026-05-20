@@ -25,11 +25,14 @@ Kolečko **„context used“** v hlavičce agenta **rozšíření nemůžou** p
 
 ### Instalace
 
-**Možnost A — VSIX (doporučeno, nejjednodušší):**
+**Možnost A — VSIX přes Command Palette (doporučeno, nejrychlejší):**
 
 1. Stáhni si nejnovější **`cursor-usage-status-*.vsix`** ze záložky [GitHub Releases](../../releases).
-2. V Cursoru: otevři panel **Extensions** → klikni na `…` (vpravo nahoře) → **Install from VSIX…** → vyber stažený soubor.
-3. **Developer: Reload Window** pokud je potřeba.
+2. V Cursoru stiskni **Ctrl+Shift+P** a napiš **`Extensions: Install from VSIX...`** — vyber tento příkaz z palety.
+3. V dialogu vyber stažený `.vsix` soubor.
+4. Pokud se položka ve status baru hned neobjeví, spusť **`Developer: Reload Window`**.
+
+> Tímhle se vyhneš hledání `…` tlačítka v hlavičce panelu Extensions (které je skryté, když je panel úzký). Command Palette funguje spolehlivě bez ohledu na šířku okna.
 
 **Možnost B — Ze zdrojáků (pro vývoj / F5 ladění):**
 

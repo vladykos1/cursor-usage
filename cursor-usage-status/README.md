@@ -8,7 +8,12 @@ Adds a **status bar** item to Cursor / VS Code showing **Total**, **Auto + Compo
 
 ## Quick install
 
-**VSIX (recommended):** download the latest `.vsix` from [GitHub Releases](../../../releases) → in Cursor open **Extensions** panel → `…` → **Install from VSIX…** → select the file.
+**VSIX via Command Palette (recommended):**
+
+1. Download the latest `.vsix` from [GitHub Releases](../../../releases).
+2. In Cursor press **Ctrl+Shift+P** → type **`Extensions: Install from VSIX...`** → pick the command.
+3. Select the downloaded `.vsix`.
+4. **`Developer: Reload Window`** if needed.
 
 **From source:** copy `extension.js` + `package.json` into:  
    `%USERPROFILE%\.cursor\extensions\lukasvladyka.cursor-usage-status-0.1.1`  
