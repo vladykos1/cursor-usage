@@ -8,3 +8,14 @@
 - Tooltip with billing cycle end date and link to the official dashboard.
 - Token sources: User settings, environment variable `CURSOR_SESSION_TOKEN`.
 - VSIX packaging for easy install via *Extensions: Install from VSIX…*.
+
+### Install notes (same VSIX — no re-download required)
+
+If reinstall fails with *“Please restart VS Code before reinstalling Cursor plan usage (status bar).”*:
+
+1. Uninstall any existing *Cursor plan usage* entry in Extensions (including old **`local`** publisher).
+2. Fully quit Cursor (not just Reload Window).
+3. Run [`reset-cursor-usage-extension.ps1`](../reset-cursor-usage-extension.ps1) from the repo, or `cursor --uninstall-extension` for both `local.cursor-usage-status` and `lukasvladyka.cursor-usage-status`.
+4. Install the same `.vsix` again via Command Palette.
+
+See the [main README](../README.md) for full troubleshooting.

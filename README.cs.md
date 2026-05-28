@@ -38,11 +38,52 @@ Kolečko **„context used“** v hlavičce agenta **rozšíření nemůžou** p
 
 - Otevři složku [`cursor-usage-status/`](./cursor-usage-status/) v Cursoru a stiskni **F5** — otevře se nové okno *Extension Development Host* s rozšířením.
 
-**Možnost C — Kopírovat ručně:**
+**Možnost C — Kopírovat ručně (jen F5 dev, ne pro běžnou instalaci):**
 
-- Zkopíruj `extension.js` + `package.json` (volitelně `README.md`) do složky rozšíření:  
-  `%USERPROFILE%\.cursor\extensions\lukasvladyka.cursor-usage-status-0.1.1`  
-  Název složky **musí** odpovídat `publisher.název-verze` v `package.json`. Pak restartuj Cursor nebo dej **Developer: Reload Window**.
+- Pouze pro lokální ladění rozšíření — **nepoužívej** místo VSIX pro normální instalaci. Kopírování obchází Uninstall a často později rozbije přeinstalaci.
+- Zkopíruj `extension.js` + `package.json` do složky rozšíření. Název složky musí odpovídat `{publisher}.{název}-{verze}` z [`package.json`](./cursor-usage-status/package.json) (např. `lukasvladyka.cursor-usage-status-0.1.1` u aktuální verze).
+- **Windows:** `%USERPROFILE%\.cursor\extensions\` · **macOS/Linux:** `~/.cursor/extensions/` · **VS Code (ne Cursor):** `~/.vscode/extensions/`
+- Pak spusť **Developer: Reload Window**.
+
+### Před upgrade nebo přeinstalací
+
+Pokud už máš starší kopii (včetně publisher **`local`** z rané ruční instalace):
+
+1. Otevři **Extensions**, najdi *Cursor plan usage (status bar)* → **Uninstall** (odstraň **obě** položky `local` i `lukasvladyka`, pokud vidíš dvě).
+2. **Úplně zavři Cursor** (File → Exit — všechna okna). *Developer: Reload Window* nestačí.
+3. Pokud instalace pořád selže, vyčisti ghost záznamy v registru — viz troubleshooting níže.
+4. Nainstaluj VSIX (Možnost A).
+
+> **VSIX soubor vs složka na disku:** stahuješ `cursor-usage-status-*.vsix`, ale Cursor instaluje do `{publisher}.{název}-{verze}` z `package.json` — ne podle názvu `.vsix`.
+
+### Instalace — řešení problémů
+
+**Chyba: *„Please restart VS Code before reinstalling Cursor plan usage (status bar).“***
+
+Samotný restart Cursoru **tento stav neopraví**. Cursor si v registru rozšíření (`extensions.json`) pamatuje **ghost záznamy**, zatímco složka na disku chybí — typické po ručním smazání složky, přerušené VSIX instalaci nebo migraci z `local.*` na `lukasvladyka.*`.
+
+**Oprava (Cursor úplně zavřený):**
+
+1. **Preferováno — CLI uninstall** (pokud máš `cursor` v PATH):
+
+   ```powershell
+   cursor --uninstall-extension local.cursor-usage-status
+   cursor --uninstall-extension lukasvladyka.cursor-usage-status
+   ```
+
+2. **Záloha — reset skript** z tohoto repa (spouštěj jen z oficiálního klonu):
+
+   ```powershell
+   cd cesta\k\cursor-usage
+   .\reset-cursor-usage-extension.ps1 -WhatIf    # náhled
+   .\reset-cursor-usage-extension.ps1            # vyžádá potvrzení
+   ```
+
+3. **Poslední možnost — ruční editace JSON:** zálohuj `%USERPROFILE%\.cursor\extensions\extensions.json`, odstraň záznamy s `identifier.id` `local.cursor-usage-status` nebo `lukasvladyka.cursor-usage-status`. **Nikdy needituj za běhu Cursoru.**
+
+4. Znovu otevři Cursor → **Extensions: Install from VSIX...** → vyber `.vsix` → **Developer: Reload Window**.
+
+**Nikdy nemaž ručně složky** z `.cursor\extensions\` — vždy použij **Uninstall** v panelu Extensions.
 
 ### Nastavení session tokenu (Command Palette) — typický první krok
 
