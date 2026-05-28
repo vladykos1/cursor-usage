@@ -47,7 +47,7 @@ The token is stored in **User Settings** under `cursorUsageStatus.sessionToken`.
 - **Orange „set token“ pill** — no token set yet.
 - **Red status / HTTP 401** — token expired; refresh from browser and run *Set session token* again.
 - **Status bar hidden** — `View → Appearance → Status Bar`.
-- **VSIX reinstall error** (*“Please restart VS Code before reinstalling…”*) — ghost extension registry; restart alone does not fix it. See **Install troubleshooting** in the [main README](../README.md) (Uninstall → quit Cursor → [`reset-cursor-usage-extension.ps1`](../reset-cursor-usage-extension.ps1) or CLI uninstall → install VSIX again).
+- **VSIX reinstall error** (*“Please restart VS Code before reinstalling…”*) — ghost extension registry; restart alone does not fix it. See **Uninstall, cleanup, and reinstall** in the [main README](../README.md). *Extension is not installed* for `local.cursor-usage-status` is OK if you never used the old manual copy.
 - **Endpoint** is unofficial — may break if Cursor changes the API response shape.
 
 Full documentation: see the [main README](../README.md).

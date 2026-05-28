@@ -47,7 +47,7 @@ Token se uloží do **User Settings** pod klíč `cursorUsageStatus.sessionToken
 - **Oranžová „set token“** — token ještě není nastavený.
 - **Červený status / HTTP 401** — token vypršel; obnov v prohlížeči a znovu spusť *Set session token*.
 - **Status bar nevidím** — `View → Appearance → Status Bar`.
-- **Chyba při přeinstalaci VSIX** (*„Please restart VS Code before reinstalling…“*) — ghost záznam v registru rozšíření; restart sám o sobě nepomůže. Viz **Instalace — řešení problémů** v [hlavním README (CZ)](../README.cs.md) (Uninstall → zavřít Cursor → [`reset-cursor-usage-extension.ps1`](../reset-cursor-usage-extension.ps1) nebo CLI uninstall → znovu VSIX).
+- **Chyba při přeinstalaci VSIX** (*„Please restart VS Code before reinstalling…“*) — ghost záznam v registru; restart sám o sobě nepomůže. Viz **Odinstalace, cleanup a přeinstalace** v [hlavním README (CZ)](../README.cs.md). *Extension is not installed* u `local.cursor-usage-status` je v pořádku, pokud jsi nikdy neměl starou ruční kopii.
 - **Endpoint** je neoficiální — když Cursor změní formát odpovědi, parser bude potřeba upravit.
 
 Kompletní dokumentace: [hlavní README (CZ)](../README.cs.md).

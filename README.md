@@ -45,33 +45,53 @@ The built-in **“context used”** ring in the Agent UI **cannot** be replaced 
 - **Windows:** `%USERPROFILE%\.cursor\extensions\` · **macOS/Linux:** `~/.cursor/extensions/` · **VS Code (not Cursor):** `~/.vscode/extensions/`
 - Then run **Developer: Reload Window**.
 
-### Before upgrade or reinstall
+### Uninstall, cleanup, and reinstall
 
-If you already have an older copy (including publisher **`local`** from early manual installs):
+**Remove the extension (normal uninstall):**
 
-1. Open **Extensions**, find *Cursor plan usage (status bar)* → **Uninstall** (remove **both** `local` and `lukasvladyka` entries if you see two).
-2. **Fully quit Cursor** (File → Exit — all windows). *Developer: Reload Window* is not enough.
-3. If install still fails, clean ghost registry entries — see troubleshooting below.
-4. Install the VSIX (Option A).
+1. **Extensions panel:** find *Cursor plan usage (status bar)* → **Uninstall**.
+2. **Or CLI** (if `cursor` is in PATH):
 
-> **VSIX filename vs install folder:** you download `cursor-usage-status-*.vsix`, but Cursor installs into `{publisher}.{name}-{version}` from `package.json` — not the `.vsix` filename.
+   ```powershell
+   cursor --uninstall-extension lukasvladyka.cursor-usage-status
+   ```
+
+   If you see *Extension 'lukasvladyka.cursor-usage-status' was successfully uninstalled!* — done. Reload Window is optional; Cursor often picks up the change immediately.
+
+**Reinstall VSIX (upgrade or fresh install):**
+
+1. Uninstall the current copy first (steps above).
+2. Install again via **Option A** (Command Palette → *Extensions: Install from VSIX...*).
+3. If the status bar item does not appear, run **Developer: Reload Window**.
+
+> **VSIX filename vs install folder:** you download `cursor-usage-status-*.vsix`, but Cursor installs into `{publisher}.{name}-{version}` from [`package.json`](./cursor-usage-status/package.json) — not the `.vsix` filename.
+
+**Legacy `local` publisher (only if you copied files manually in the past):**
+
+Some early installs used publisher **`local`** instead of **`lukasvladyka`**. If you ever did that, also run:
+
+```powershell
+cursor --uninstall-extension local.cursor-usage-status
+```
+
+If the CLI replies *Extension 'local.cursor-usage-status' is not installed* — **that is OK**. It means you never had that old copy; continue with `lukasvladyka.cursor-usage-status` only.
 
 ### Install troubleshooting
 
 **Error: *“Please restart VS Code before reinstalling Cursor plan usage (status bar).”***
 
-Restarting Cursor **alone does not fix this**. Cursor still has **ghost entries** in its extension registry (`extensions.json`) while the extension folder on disk is missing — common after manual folder deletion, interrupted VSIX install, or migrating from `local.*` to `lukasvladyka.*`.
+Restarting Cursor **alone does not fix this**. Cursor still has a **ghost entry** in its extension registry (`extensions.json`) while the extension folder on disk is missing — e.g. after deleting a folder manually, an interrupted VSIX install, or switching from an old `local.*` copy to VSIX.
 
-**Fix (Cursor fully closed):**
+**Fix:**
 
-1. **Preferred — CLI uninstall** (if `cursor` is in PATH):
+1. **CLI uninstall** (try both IDs; ignore *not installed* on `local.*` if you never used it):
 
    ```powershell
-   cursor --uninstall-extension local.cursor-usage-status
    cursor --uninstall-extension lukasvladyka.cursor-usage-status
+   cursor --uninstall-extension local.cursor-usage-status
    ```
 
-2. **Fallback — reset script** from this repo (run only from the official clone):
+2. **If install still fails — reset script** from this repo (run only from the official clone; Cursor fully closed):
 
    ```powershell
    cd path\to\cursor-usage
@@ -79,11 +99,11 @@ Restarting Cursor **alone does not fix this**. Cursor still has **ghost entries*
    .\reset-cursor-usage-extension.ps1            # asks for confirmation
    ```
 
-3. **Last resort — manual JSON edit:** backup `%USERPROFILE%\.cursor\extensions\extensions.json`, remove entries whose `identifier.id` is `local.cursor-usage-status` or `lukasvladyka.cursor-usage-status`. **Never edit while Cursor is running.**
+3. **Last resort — manual JSON edit:** backup `%USERPROFILE%\.cursor\extensions\extensions.json` (macOS/Linux: `~/.cursor/extensions/extensions.json`), remove entries whose `identifier.id` is `lukasvladyka.cursor-usage-status` and/or `local.cursor-usage-status`. **Never edit while Cursor is running.**
 
-4. Reopen Cursor → **Extensions: Install from VSIX...** → select the `.vsix` → **Developer: Reload Window**.
+4. Reopen Cursor → **Extensions: Install from VSIX...** → select the `.vsix`. Run **Developer: Reload Window** only if the status bar item is missing.
 
-**Never delete extension folders manually** from `.cursor\extensions\` — always use **Uninstall** in the Extensions panel.
+**Never delete extension folders manually** from `.cursor\extensions\` — always use **Uninstall** in the Extensions panel or the CLI commands above.
 
 ### Set session token (Command Palette) — the usual first step
 
